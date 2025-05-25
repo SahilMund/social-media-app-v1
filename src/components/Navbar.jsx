@@ -32,6 +32,7 @@ const Navbar = () => {
 
             toast.success(response?.data?.message);
             setUser(null);
+            localStorage.clear();
             navigate('/', { replace: true });
         } catch (error) {
             console.error('Logout error:', error);

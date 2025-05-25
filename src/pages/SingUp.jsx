@@ -58,6 +58,7 @@ const SingUp = () => {
 
             toast.success(response?.data?.message);
             setSignupForm(initialFormValues);
+            console.log('response?.data', response?.data)
             setUser({
                 name: response?.data?.data?.name,
                 email: response?.data?.data?.email
