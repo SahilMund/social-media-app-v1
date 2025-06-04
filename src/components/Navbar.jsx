@@ -10,6 +10,8 @@ const Navbar = () => {
     const navbarItems = [
         { label: 'Home', path: '/' },
         { label: 'Create Post', path: '/create-post' },
+        { label: 'My Posts', path: '/my-posts' },
+        { label: 'Profile', path: '/user-profile' },
     ];
 
     const { user, setUser } = useAuth();

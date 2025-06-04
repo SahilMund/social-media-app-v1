@@ -1,3 +1,14 @@
+# Steps to run the project
+
+1. Clone the repo:-
+
+   ```
+    git clone https://github.com/SahilMund/social-media-app-v1.git
+   ```
+2. npm install
+3. npm run dev
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

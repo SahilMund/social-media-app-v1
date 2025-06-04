@@ -57,7 +57,8 @@ const LogIn = () => {
             saveToLocalStorage(response?.data?.data?.token);
             setUser({
                 name: response?.data?.data?.name,
-                email: response?.data?.data?.email
+                email: response?.data?.data?.email,
+                userId: response?.data?.data?._id
             });
             navigate('/', { replace: true });
         } catch (error) {
