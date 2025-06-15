@@ -7,7 +7,6 @@ import ProtectedRoute from "./hoc/WithAuth";
 import PostUploadForm from "./pages/PostUploadForm";
 import UserProfile from "./pages/UserProfile";
 import { getuserInfo } from "./service/user";
-import { getAuthToken } from "./helpers/localstorage";
 import { useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
 
@@ -15,9 +14,8 @@ function App() {
   const { setUser } = useAuth();
 
   const fetchLoggedInUserInfo = async () => {
-    const token = getAuthToken();
 
-    const { data } = await getuserInfo(token);
+    const { data } = await getuserInfo();
     if (data.success) {
       setUser({
         name: data?.data?.user?.name,

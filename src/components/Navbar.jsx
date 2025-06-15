@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { userLogout } from '../service/auth';
-import { getAuthToken } from '../helpers/localstorage';
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import '../styles/navbar.css';
@@ -18,15 +17,14 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        const token = getAuthToken();
 
-        if (!token || !user) {
+        if (!user) {
             toast.error("Something went wrong!!");
             return;
         }
 
         try {
-            const response = await userLogout(token);
+            const response = await userLogout();
             if (!response?.data?.success) {
                 toast.error(response?.data?.message);
                 return;

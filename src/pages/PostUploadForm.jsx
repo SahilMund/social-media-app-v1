@@ -3,7 +3,6 @@ import { FaPlus, FaSpinner, FaTimes } from "react-icons/fa";
 import "../styles/post-form.css";
 import { toast } from "react-toastify";
 import { createPost, fileUpload, getPostById, updatePost } from "../service/post";
-import { getAuthToken } from "../helpers/localstorage";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -17,12 +16,11 @@ const PostUploadForm = () => {
   const currentMode = window.location.href.includes('/edit-post') ? 'edit' : 'add';
 
   const fetchPostsById = async (postId) => {
-    const token = getAuthToken();
-    const {data} = await getPostById(postId, token);
+    const { data } = await getPostById(postId);
 
-    if(data.success){
-        setCaption(data.data.text);
-        setPreview(data.data.image);
+    if (data.success) {
+      setCaption(data.data.text);
+      setPreview(data.data.image);
     }
   }
 
@@ -30,14 +28,14 @@ const PostUploadForm = () => {
 
 
   useEffect(() => {
-    if(currentMode === 'add') return;
+    if (currentMode === 'add') return;
 
 
     const postId = window.location.href.split('/').pop(); // TODO: use useLocation hook over here
     console.log('postId', postId);
 
     fetchPostsById(postId)
-  },[])
+  }, [])
 
   const inputRef = useRef(null);
 
@@ -47,7 +45,7 @@ const PostUploadForm = () => {
       return;
     }
 
-    if(currentMode ==='edit' && !file){
+    if (currentMode === 'edit' && !file) {
       toast.error("Please change the image");
       return;
     }
@@ -72,19 +70,17 @@ const PostUploadForm = () => {
         image: uploadedUrl,
       };
 
-      const token = getAuthToken();
-
-      if(currentMode === 'edit'){
+      if (currentMode === 'edit') {
         //edit flow
         const postId = window.location.href.split('/')?.pop(); // TODO: use useLocation hook over here
 
-        const {data} = await updatePost(payload, token, postId);
+        const { data } = await updatePost(payload, postId);
 
-        if(!data.success) return;
+        if (!data.success) return;
 
         toast.success("post updated successfully !!");
         setCaption("");
-  
+
         setFile(null);
         setPreview(null);
         inputRef.current.value = null;
@@ -94,9 +90,9 @@ const PostUploadForm = () => {
       }
 
 
-      const {data:createResponse} = await createPost(payload, token);
+      const { data: createResponse } = await createPost(payload);
       console.log('createResponse', createResponse)
-      if(!createResponse.success) return;
+      if (!createResponse.success) return;
 
       toast.success("post created successfully !!");
       setCaption("");
@@ -121,7 +117,7 @@ const PostUploadForm = () => {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-   
+
     if (selectedFile) {
       setFile(selectedFile);
       setPreview(URL.createObjectURL(selectedFile));
@@ -158,9 +154,9 @@ const PostUploadForm = () => {
         onChange={(e) => setCaption(e.target.value)}
       />
 
-     {currentMode === 'add' ? <button className="post-btn" onClick={handlePost} disabled={loading}>
+      {currentMode === 'add' ? <button className="post-btn" onClick={handlePost} disabled={loading}>
         {loading ? <FaSpinner className="spinner" /> : "Post"}
-      </button> :  <button className="post-btn" onClick={handlePost} disabled={loading}>
+      </button> : <button className="post-btn" onClick={handlePost} disabled={loading}>
         {loading ? <FaSpinner className="spinner" /> : "Update Post"}
       </button>}
     </div>

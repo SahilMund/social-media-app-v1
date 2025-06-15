@@ -9,52 +9,37 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import "../styles/post.css";
-import { deletePost, likePost, UnlikePost } from "../service/post";
-import { getAuthToken } from "../helpers/localstorage";
+import { likePost, UnlikePost } from "../service/post";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { FaHeartPulse } from "react-icons/fa6";
 import CommentSection from "./CommentSection";
 import { useState } from "react";
 import { getCommentsByPostId } from "../service/comment";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { deletePostById } from "../../toolkit/postSlice";
 
-const PostCard = ({ post, reFetch }) => {
+const PostCard = ({ post, refetch }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
-
-  console.log("user", user);
 
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
 
+  const dispatch = useDispatch();
 
   const handlePostDelete = async (id) => {
-    try {
-      const token = getAuthToken();
-      const { data } = await deletePost(id, token);
-      console.log(data);
-      if (!data.success) return;
-      await reFetch();
-      toast.success(data.message);
-    } catch (error) {
-      console.log("errr", error);
-      toast.error("something went wrong");
-    }
+
+    await dispatch(deletePostById(id)).unwrap();
+    toast.success('success')
   };
 
   const fetchComments = async () => {
     try {
-      const token = getAuthToken();
 
-      const { data } = await getCommentsByPostId(post._id, token);
-
-      console.log('comments', data);
-
+      const { data } = await getCommentsByPostId(post._id);
       setComments(data.data);
-
-   
     } catch (error) {
       console.error("error", error);
       toast.error("Something went wrong");
@@ -72,10 +57,8 @@ const PostCard = ({ post, reFetch }) => {
   const handleLike = async () => {
     const postId = post._id;
 
-    const token = getAuthToken();
-
     try {
-      const { data } = await likePost(postId, token);
+      const { data } = await likePost(postId);
 
       if (data.success) {
         await reFetch();
@@ -90,10 +73,8 @@ const PostCard = ({ post, reFetch }) => {
   const handleDisLike = async () => {
     const postId = post._id;
 
-    const token = getAuthToken();
-
     try {
-      const { data } = await UnlikePost(postId, token);
+      const { data } = await UnlikePost(postId);
 
       if (data.success) {
         await reFetch();

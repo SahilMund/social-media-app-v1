@@ -1,12 +1,10 @@
-import axios from "axios";
 import { API_ENDPOINTS } from "./endpoint";
+import { axiosBaseInstance } from "../axios/instance";
 
-export const userSignUp = (data) => axios.post(API_ENDPOINTS.SIGN_UP, data);
-export const userLogin = (data) => axios.post(API_ENDPOINTS.LOG_IN, data);
-export const userLogout = (token) => {
-  return axios.delete(API_ENDPOINTS.LOG_OUT, {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  });
+export const userSignUp = (data) =>
+  axiosBaseInstance.post(API_ENDPOINTS.SIGN_UP, data);
+export const userLogin = (data) =>
+  axiosBaseInstance.post(API_ENDPOINTS.LOG_IN, data);
+export const userLogout = () => {
+  return axiosBaseInstance.delete(API_ENDPOINTS.LOG_OUT);
 };

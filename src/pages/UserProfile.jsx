@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { getuserInfo, updateUser } from "../service/user";
-import { getAuthToken } from "../helpers/localstorage";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
@@ -19,12 +18,10 @@ const UserProfile = () => {
   };
 
   const fetchLoggedInUserInfo = async () => {
-    const token = getAuthToken();
-
     try {
-      const { data } = await getuserInfo(token);
+      const { data } = await getuserInfo();
       console.log('data', data)
-      if(data.success){
+      if (data.success) {
         setProfile({
           ...profile,
           name: data.data.user.name,
@@ -32,29 +29,28 @@ const UserProfile = () => {
         });
       }
     } catch (error) {
-        toast.error('something went wrong')
+      toast.error('something went wrong', error.messgae)
     }
   };
 
   const handleUpdateUser = async () => {
-    const token = getAuthToken();
 
     try {
-      const { data } = await updateUser({name: profile.name}, token);
+      const { data } = await updateUser({ name: profile.name });
       console.log('data', data)
-      if(data.success){
+      if (data.success) {
         toast.success(data.message);
         await fetchLoggedInUserInfo();
       }
     } catch (error) {
-        toast.error('something went wrong')
-        console.log('error', error)
+      toast.error('something went wrong')
+      console.log('error', error)
     }
   };
 
   useEffect(() => {
     fetchLoggedInUserInfo()
-  },[])
+  }, [])
   return (
     <div className="upload-form-container">
       <div>
