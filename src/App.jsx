@@ -9,6 +9,7 @@ import UserProfile from "./pages/UserProfile";
 import { getuserInfo } from "./service/user";
 import { useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
+import withRoleProtection from "./hoc/withRoleProtection";
 
 function App() {
   const { setUser } = useAuth();
@@ -21,6 +22,7 @@ function App() {
         name: data?.data?.user?.name,
         email: data?.data?.user?.email,
         userId: data?.data?.user?._id,
+        role: data?.data?.user?.role ?? 'creator'
       });
     }
   };
@@ -28,6 +30,8 @@ function App() {
   useEffect(() => {
     fetchLoggedInUserInfo();
   }, []);
+
+  const AnalyticsPage = withRoleProtection(["creator"])(UserProfile);
 
   return (
     <div>
@@ -70,6 +74,14 @@ function App() {
             <ProtectedRoute>
               <UserProfile />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+
+            <AnalyticsPage />
+
           }
         />
         <Route
