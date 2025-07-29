@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import SingUp from "./pages/Singup";
+import SingUp from "./pages/SingUp";
 import { ToastContainer } from "react-toastify";
 import LogIn from "./pages/LogIn";
 import Home from "./pages/Home";
@@ -39,17 +39,17 @@ function App() {
         <Route
           path="/"
           element={
-             <ProtectedRoute>
-            <Home />
-             </ProtectedRoute>
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/my-posts"
           element={
             <ProtectedRoute>
-            <Home />
-           </ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
           }
         />
         <Route
