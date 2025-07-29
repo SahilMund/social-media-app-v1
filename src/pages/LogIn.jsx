@@ -69,6 +69,10 @@ const LogIn = () => {
         }
     };
 
+    const handleGoogleOAUth = () => {
+        window.location.href = `${import.meta.env.VITE_SERVER_URL}/api/auth/google`
+    }
+
     return (
         <div className="login-container">
             <h2>LogIn</h2>
@@ -109,6 +113,10 @@ const LogIn = () => {
                 Don’t have an account?
                 <a href="/signup">Sign up</a>
             </div>
+
+            <button onClick={handleGoogleOAUth}>
+                Singup With Google
+            </button>
         </div>
     );
 };

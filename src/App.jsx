@@ -39,17 +39,17 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
+             <ProtectedRoute>
+            <Home />
+             </ProtectedRoute>
           }
         />
         <Route
           path="/my-posts"
           element={
             <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
+            <Home />
+           </ProtectedRoute>
           }
         />
         <Route

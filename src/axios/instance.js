@@ -1,9 +1,12 @@
 import axios from "axios";
 import { getAuthToken } from "../helpers/localstorage";
-const BASE_URL = "https://social-media-server-v1-awpt.onrender.com/api";
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
+const BASE_URL = `${SERVER_URL}/api`;
 
 export const axiosBaseInstance = axios.create({
   baseURL: BASE_URL,
+  withCredentials: true,
 });
 
 axiosBaseInstance.interceptors.request.use(

@@ -3,6 +3,9 @@ import { Navigate } from 'react-router-dom'
 import { getAuthToken } from '../helpers/localstorage'
 import Navbar from '../components/Navbar'
 
+
+// api/me --> userId
+
 const ProtectedRoute = ({ children, isPublic = false }) => {
     const token = getAuthToken()
 
